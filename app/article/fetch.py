@@ -5,7 +5,6 @@ from core.models import Article
 
 
 def fetch_articles():
-    """Fetch technology articles from NewsAPI"""
     print("fetching articles...")
     api_key = settings.NEWSAPI_KEY
     url = "https://newsapi.org/v2/top-headlines"
