@@ -19,6 +19,12 @@ class ArticleListView(generics.ListAPIView):
     pagination_class = ArticlePagination
 
 
+class ArticleDetailView(generics.RetrieveAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
+    lookup_field = 'pk'
+
+
 class ArticleSummaryView(generics.RetrieveAPIView):
     serializer_class = ArticleSummarySerializer
 
