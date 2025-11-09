@@ -10,3 +10,19 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class ArticleSummary(models.Model):
+    article = models.OneToOneField(
+        Article,
+        on_delete=models.CASCADE,
+        related_name='summary'
+    )
+    summary_text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = "Article Summaries"
+
+    def __str__(self):
+        return f"Summary for: {self.article.title}"
