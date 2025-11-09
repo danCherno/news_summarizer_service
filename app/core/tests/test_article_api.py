@@ -50,3 +50,21 @@ class ArticleAPITests(TestCase):
 
         first_article = response.data['results'][0]
         self.assertEqual(first_article['title'], 'Article 14')
+
+    def test_get_article_detail(self):
+        article = Article.objects.first()
+        url = reverse('article-detail', kwargs={'pk': article.id})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['id'], article.id)
+        self.assertEqual(response.data['title'], article.title)
+        self.assertEqual(response.data['content'], article.content)
+        self.assertEqual(response.data['url'], article.url)
+        self.assertEqual(response.data['source'], article.source)
+
+    def test_get_article_detail_not_found(self):
+        url = reverse('article-detail', kwargs={'pk': 9999})
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

@@ -23,6 +23,7 @@ env = environ.Env(
 )
 
 SECRET_KEY = env('SECRET_KEY', default='your-default-secret-key-for-dev')
+OPENAI_API_KEY = env('OPENAI_API_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
