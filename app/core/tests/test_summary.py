@@ -29,7 +29,7 @@ class ArticleSummaryTests(TestCase):
             source='Tech News'
         )
 
-    @patch('article.summerise.OpenAI')
+    @patch('article.summariser.OpenAI')
     def test_create_summary_on_first_request(self, mock_openai):
         # Mock OpenAI response
         mock_client = Mock()
@@ -80,7 +80,7 @@ class ArticleSummaryTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    @patch('article.summerise.OpenAI')
+    @patch('article.summariser.OpenAI')
     def test_summary_api_error(self, mock_openai):
         # Mock OpenAI error
         mock_client = Mock()
