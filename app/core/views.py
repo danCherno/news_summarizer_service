@@ -1,4 +1,4 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
@@ -14,18 +14,21 @@ class ArticlePagination(PageNumberPagination):
 
 
 class ArticleListView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Article.objects.all().order_by('-published_date')
     serializer_class = ArticleSerializer
     pagination_class = ArticlePagination
 
 
 class ArticleDetailView(generics.RetrieveAPIView):
+    permission_classes = [permissions.AllowAny]
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     lookup_field = 'pk'
 
 
 class ArticleSummaryView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = ArticleSummarySerializer
 
     def get(self, request, article_id):
