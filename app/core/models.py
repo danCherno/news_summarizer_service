@@ -8,7 +8,7 @@ class Article(models.Model):
     published_date = models.DateField()
     source = models.CharField(max_length=200)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
 
@@ -24,5 +24,5 @@ class ArticleSummary(models.Model):
     class Meta:
         verbose_name_plural = "Article Summaries"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Summary for: {self.article.title}"

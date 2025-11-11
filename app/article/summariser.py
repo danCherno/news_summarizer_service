@@ -1,13 +1,15 @@
 from openai import OpenAI
 from django.conf import settings
-from core.models import ArticleSummary
+from core.models import Article, ArticleSummary
 
 
 class SummaryService:
-    def __init__(self):
+    client: OpenAI
+
+    def __init__(self) -> None:
         self.client = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-    def generate_summary(self, article):
+    def generate_summary(self, article: Article) -> ArticleSummary:
         try:
             response = self.client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -45,7 +47,7 @@ class SummaryService:
         except Exception as e:
             raise Exception(f"Failed to generate summary: {str(e)}")
 
-    def get_or_create_summary(self, article):
+    def get_or_create_summary(self, article: Article) -> ArticleSummary:
         try:
             return article.summary
         except ArticleSummary.DoesNotExist:
