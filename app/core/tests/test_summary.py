@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from rest_framework import status
 from unittest.mock import patch, Mock
@@ -10,6 +11,15 @@ from core.models import Article, ArticleSummary
 class ArticleSummaryTests(TestCase):
     def setUp(self):
         self.client = APIClient()
+
+        # Create a test user
+        self.user = User.objects.create_user(
+            username='testuser',
+            password='testpass123'
+        )
+
+        # Authenticate the client
+        self.client.force_authenticate(user=self.user)
 
         self.article = Article.objects.create(
             title='Test AI Article',
@@ -35,7 +45,10 @@ class ArticleSummaryTests(TestCase):
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('summary_text', response.data)
-        self.assertEqual(response.data['summary_text'], 'This is a test summary.')  # noqa: E501
+        self.assertEqual(
+            response.data['summary_text'],
+            'This is a test summary.'
+        )
 
         # Verify summary was created in database
         self.assertEqual(ArticleSummary.objects.count(), 1)
@@ -82,3 +95,12 @@ class ArticleSummaryTests(TestCase):
             status.HTTP_500_INTERNAL_SERVER_ERROR
         )
         self.assertIn('error', response.data)
+
+    def test_unauthenticated_user_denied(self):
+        # Create unauthenticated client
+        unauthenticated_client = APIClient()
+
+        url = reverse('article-summary', kwargs={'article_id': self.article.id})  # noqa: E501
+        response = unauthenticated_client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
