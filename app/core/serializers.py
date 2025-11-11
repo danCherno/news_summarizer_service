@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Article
-from app.article.summariser import ArticleSummary
+from article.summariser import ArticleSummary
 
 
 class ArticleSerializer(serializers.ModelSerializer):

@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from django.shortcuts import get_object_or_404
 from .models import Article
 from .serializers import ArticleSerializer, ArticleSummarySerializer
-from app.article.summariser import SummaryService
+from article.summariser import SummaryService
 
 
 class ArticlePagination(PageNumberPagination):
