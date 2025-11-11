@@ -31,7 +31,7 @@ class ArticleSummaryView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ArticleSummarySerializer
 
-    def get(self, request, article_id):
+    def get(self, request, article_id) -> Response:
         article = get_object_or_404(Article, id=article_id)
 
         summary_service = SummaryService()
